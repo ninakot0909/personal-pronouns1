@@ -776,7 +776,7 @@
               <span id="sorterEmoji">🐶</span>
               <span id="sorterText">a dog</span>
             </div>
-            <div style="font-size: 0.9rem; color: #64748b;" id="sorterSub">Один питомец! В какую корзинку его положить?</div>
+            <!-- sorterSub removed -->
             <div class="feedback-box" id="sorterFeedback" style="min-height: 32px;"></div>
           </div>
 
@@ -991,49 +991,56 @@
         word: "I",
         ru: "Я",
         desc: "Когда говорю про себя. Всегда с большой буквы!",
-        example: "I am a student. (Я ученик)",
+        example: "I am a student.",
+        exampleRu: "Я ученик",
         svg: SVG_ART.iMe
       },
       {
         word: "He",
         ru: "Он",
         desc: "Один мальчик, юноша, папа, дедушка.",
-        example: "He is a boy. (Он мальчик)",
+        example: "He is a boy.",
+        exampleRu: "Он мальчик",
         svg: SVG_ART.he
       },
       {
         word: "She",
         ru: "Она",
         desc: "Одна девочка, мама, учительница, бабушка.",
-        example: "She is happy. (Она счастливая)",
+        example: "She is happy.",
+        exampleRu: "Она счастливая",
         svg: SVG_ART.she
       },
       {
         word: "It",
         ru: "Оно / Он / Она",
-        desc: "ОДНО животное или ОДИН предмет (собака, мяч, стол).",
-        example: "It is a dog. (Это собака)",
+        desc: "Один питомец или один предмет (собака, мяч, стол).",
+        example: "It is a dog.",
+        exampleRu: "Это собака",
         svg: SVG_ART.itDog
       },
       {
         word: "We",
         ru: "Мы",
         desc: "Я и ещё кто-то (Я + мама, Я + друзья).",
-        example: "We are friends. (Мы друзья)",
+        example: "We are friends.",
+        exampleRu: "Мы друзья",
         svg: SVG_ART.we
       },
       {
         word: "They",
         ru: "Они",
-        desc: "Много людей, много животных или много вещей!",
-        example: "They are dogs. (Они собаки)",
+        desc: "Много людей, много питомцев или много вещей!",
+        example: "They are dogs.",
+        exampleRu: "Они собаки",
         svg: SVG_ART.they
       },
       {
         word: "You",
         ru: "Ты / Вы",
         desc: "И для одного человека («ты»), и для нескольких («вы, ребята»)! Например: You are my friend (Ты мой друг) или You are students (Вы ученики).",
-        example: "You are my friend / You are good students!",
+        example: "You are my friend.",
+        exampleRu: "Ты мой друг",
         svg: SVG_ART.you
       }
     ];
@@ -1168,18 +1175,18 @@
 
     // Data for Basket Sorter (Game 4)
     const BASKET_ITEMS = [
-      { text: "a dog (собака)", emoji: "🐶", target: "It", tip: "Одно животное = It" },
-      { text: "Tom (мальчик)", emoji: "👦", target: "He", tip: "Мальчик = He" },
-      { text: "Emma (девочка)", emoji: "👧", target: "She", tip: "Девочка = She" },
-      { text: "three cats (3 кошки)", emoji: "🐱🐱🐱", target: "They", tip: "Много кошек = They" },
-      { text: "Max and I (Макс и Я)", emoji: "👫", target: "We", tip: "Там есть 'I' (Я) = We" },
+      { text: "a dog (собака)", emoji: "🐶", target: "It", tip: "Один питомец = It" },
+      { text: "Tom (мальчик)", emoji: "👦", target: "He", tip: "Один мальчик = He" },
+      { text: "Emma (девочка)", emoji: "👧", target: "She", tip: "Одна девочка = She" },
+      { text: "three cats (3 кошки)", emoji: "🐱🐱🐱", target: "They", tip: "Много питомцев = They" },
+      { text: "Max and I (Макс и Я)", emoji: "👫", target: "We", tip: "Друг и Я (МЫ) = We" },
       { text: "a pencil (карандаш)", emoji: "✏️", target: "It", tip: "Один предмет = It" },
-      { text: "Dad (папа)", emoji: "👨", target: "He", tip: "Мужчина = He" },
-      { text: "Mum (мама)", emoji: "👩", target: "She", tip: "Женщина = She" },
-      { text: "birds (птицы)", emoji: "🐦🐦", target: "They", tip: "Много птиц = They" },
-      { text: "my sister and I", emoji: "👭", target: "We", tip: "Сестра и Я = We" },
-      { text: "a ball (мячик)", emoji: "⚽", target: "It", tip: "Предмет = It" },
-      { text: "Grandpa (дедушка)", emoji: "👴", target: "He", tip: "Дедушка = He" }
+      { text: "Dad (папа)", emoji: "👨", target: "He", tip: "Один мужчина (папа) = He" },
+      { text: "Mum (мама)", emoji: "👩", target: "She", tip: "Одна женщина (мама) = She" },
+      { text: "birds (птицы)", emoji: "🐦🐦", target: "They", tip: "Много питомцев / птиц = They" },
+      { text: "my sister and I", emoji: "👭", target: "We", tip: "Сестра и Я (МЫ) = We" },
+      { text: "a ball (мячик)", emoji: "⚽", target: "It", tip: "Один предмет = It" },
+      { text: "Grandpa (дедушка)", emoji: "👴", target: "He", tip: "Один дедушка = He" }
     ];
 
     /* ==========================================================================
@@ -1256,8 +1263,8 @@
               <div class="back-title">${card.word}</div>
               <div class="back-ru">${card.ru}</div>
               <div class="back-desc">${card.desc}</div>
-              <div style="font-size:0.85rem; color:#4338ca; font-style:italic;">${card.example}</div>
-              <button class="audio-btn" style="margin-top:8px;" onclick="event.stopPropagation(); speakWord('${card.example}')">🔊</button>
+              <div style="font-size:0.88rem; color:#4338ca; font-weight:600; margin-top:4px;">${card.example} <span style="font-size:0.8rem; color:#6b7280; font-weight:normal;">(${card.exampleRu})</span></div>
+              <button class="audio-btn" style="margin-top:8px;" onclick="event.stopPropagation(); speakWord('${card.example}')" title="Слушать только английское предложение">🔊 Слушать пример</button>
             </div>
           </div>
         `;

@@ -1,0 +1,1441 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Pronouns Adventure! Личные местоимения (8 лет)</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #6366f1;
+      --secondary: #06b6d4;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --bg: #f0f4fd;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comfortaa', cursive, sans-serif;
+      user-select: none;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e0f2fe 0%, #fef3c7 50%, #f3e8ff 100%);
+      min-height: 100vh;
+      color: var(--text);
+      padding-bottom: 40px;
+    }
+
+    header {
+      background: white;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      padding: 16px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .badge-icon {
+      font-size: 2.2rem;
+      animation: bounce 2s infinite ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      color: #3730a3;
+      margin-bottom: 2px;
+    }
+
+    .sub-title {
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .score-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: #f8fafc;
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 2px solid #e2e8f0;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
+    }
+
+    .score-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: bold;
+      font-size: 1.15rem;
+      color: #475569;
+    }
+
+    .score-item span.num {
+      color: #d97706;
+    }
+
+    /* Tabs Bar */
+    .nav-bar {
+      max-width: 960px;
+      margin: 20px auto 10px;
+      display: flex;
+      gap: 10px;
+      padding: 0 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-bar::-webkit-scrollbar { display: none; }
+
+    .nav-tab {
+      flex: 1;
+      min-width: 130px;
+      background: white;
+      border: 3px solid #cbd5e1;
+      padding: 12px 14px;
+      border-radius: 18px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: #475569;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+
+    .nav-tab:hover {
+      transform: translateY(-3px);
+      border-color: #818cf8;
+      color: #4f46e5;
+    }
+
+    .nav-tab.active {
+      background: #4f46e5;
+      color: white;
+      border-color: #3730a3;
+      box-shadow: 0 8px 16px rgba(79, 70, 229, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .tab-icon {
+      font-size: 1.6rem;
+    }
+
+    /* Main Container */
+    main {
+      max-width: 960px;
+      margin: 10px auto;
+      padding: 0 16px;
+    }
+
+    .section-screen {
+      display: none;
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    .section-screen.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-panel {
+      background: white;
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .panel-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .panel-title {
+      font-size: 1.5rem;
+      color: #1e1b4b;
+      margin-bottom: 6px;
+    }
+
+    .panel-desc {
+      font-size: 1rem;
+      color: #64748b;
+    }
+
+    /* GAME 1: FLASHCARDS WITH SVG ART */
+    .flashcards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .flip-card {
+      background-color: transparent;
+      height: 310px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    .flip-card.flipped .flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-front, .flip-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px;
+      border: 4px solid #e2e8f0;
+      background: #ffffff;
+    }
+
+    .flip-front {
+      border-color: #c7d2fe;
+    }
+
+    .flip-back {
+      background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+      border-color: #818cf8;
+      transform: rotateY(180deg);
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .card-svg-box {
+      width: 140px;
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 8px 0;
+    }
+
+    .card-svg-box svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    }
+
+    .pronoun-badge {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #3730a3;
+      background: #e0e7ff;
+      padding: 4px 18px;
+      border-radius: 999px;
+      letter-spacing: 1px;
+    }
+
+    .audio-btn {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: 0.2s;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
+    }
+
+    .audio-btn:hover {
+      transform: scale(1.1);
+      background: #4338ca;
+    }
+
+    .hint-label {
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+
+    .back-title {
+      font-size: 1.8rem;
+      color: #1e1b4b;
+      font-weight: bold;
+    }
+
+    .back-ru {
+      font-size: 1.25rem;
+      color: #4338ca;
+      font-weight: 700;
+    }
+
+    .back-desc {
+      font-size: 0.95rem;
+      color: #475569;
+      background: white;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 1px dashed #a5b4fc;
+      margin-top: 4px;
+    }
+
+    /* GAME 2: REPLACE THE WORDS (THE CORE DRILL FOR KIDS WHO STRUGGLE) */
+    .trainer-box {
+      background: #f8fafc;
+      border: 3px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .trainer-scene {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .trainer-image-wrap {
+      width: 180px;
+      height: 150px;
+      background: white;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #e0e7ff;
+    }
+
+    .trainer-sentence {
+      font-size: 1.45rem;
+      color: #1e293b;
+      line-height: 1.6;
+    }
+
+    .highlight-target {
+      background: #fef08a;
+      color: #854d0e;
+      padding: 4px 12px;
+      border-radius: 10px;
+      border-bottom: 3px solid #eab308;
+      font-weight: 900;
+      display: inline-block;
+    }
+
+    .pronoun-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .pronoun-choice-btn {
+      background: white;
+      color: #3730a3;
+      font-size: 1.3rem;
+      font-weight: bold;
+      padding: 14px 28px;
+      border-radius: 16px;
+      border: 3px solid #cbd5e1;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transition: all 0.2s;
+    }
+
+    .pronoun-choice-btn:hover {
+      border-color: #6366f1;
+      transform: translateY(-2px);
+      background: #eef2ff;
+    }
+
+    .pronoun-choice-btn.correct {
+      background: #10b981 !important;
+      color: white !important;
+      border-color: #059669 !important;
+      transform: scale(1.05);
+    }
+
+    .pronoun-choice-btn.wrong {
+      background: #ef4444 !important;
+      color: white !important;
+      border-color: #dc2626 !important;
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    .feedback-box {
+      min-height: 48px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* GAME 3: PICTURE TO PRONOUN (MATCHING SCENES) */
+    .pic-quiz-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .big-picture-card {
+      width: 100%;
+      max-width: 380px;
+      background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
+      border: 4px solid #bbf7d0;
+      border-radius: 24px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.07);
+      margin-bottom: 20px;
+    }
+
+    .big-svg-frame {
+      width: 220px;
+      height: 180px;
+      margin: 0 auto 12px;
+    }
+
+    .pic-prompt {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #166534;
+      margin-bottom: 6px;
+    }
+
+    .pic-subprompt {
+      font-size: 0.95rem;
+      color: #64748b;
+    }
+
+    /* GAME 4: SORTING / BASKETS GAME */
+    .sort-playground {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .word-spawner {
+      background: #fdf2f8;
+      border: 3px dashed #f472b6;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .draggable-word {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #db2777;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      padding: 12px 28px;
+      border-radius: 999px;
+      box-shadow: 0 8px 16px rgba(219, 39, 119, 0.3);
+      cursor: grab;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    .baskets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 14px;
+    }
+
+    .basket {
+      background: white;
+      border: 3px solid #cbd5e1;
+      border-radius: 18px;
+      padding: 16px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .basket:hover {
+      transform: translateY(-4px);
+      border-color: #4f46e5;
+      background: #f5f3ff;
+    }
+
+    .basket-name {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #4f46e5;
+    }
+
+    .basket-desc {
+      font-size: 0.75rem;
+      color: #64748b;
+      line-height: 1.2;
+    }
+
+    .basket-svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    /* CHEAT SHEET / HELPER MODAL */
+    .helper-box {
+      background: #eff6ff;
+      border: 2px solid #bfdbfe;
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: 20px;
+    }
+
+    .helper-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #1d4ed8;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .helper-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 8px;
+      font-size: 0.9rem;
+      color: #1e3a8a;
+    }
+
+    .helper-pill {
+      background: white;
+      padding: 6px 12px;
+      border-radius: 10px;
+      border: 1px solid #dbeafe;
+    }
+
+    .helper-pill strong {
+      color: #2563eb;
+    }
+
+    /* Control buttons */
+    .btn-action {
+      background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+      color: white;
+      border: none;
+      font-size: 1.15rem;
+      font-weight: bold;
+      padding: 14px 28px;
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.45);
+    }
+
+    /* Celebratory confetti animation */
+    .star-pop {
+      position: fixed;
+      pointer-events: none;
+      font-size: 2rem;
+      animation: floatUp 1s ease-out forwards;
+      z-index: 1000;
+    }
+
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translate(0, 0) scale(1); }
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.6); }
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.2rem; }
+      .nav-tab { min-width: 105px; font-size: 0.85rem; padding: 10px 8px; }
+      .pronoun-choice-btn { padding: 10px 18px; font-size: 1.15rem; }
+      .trainer-sentence { font-size: 1.2rem; }
+      .draggable-word { font-size: 1.2rem; padding: 10px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <header>
+    <div class="logo-container">
+      <div class="badge-icon">🦸‍♂️</div>
+      <div>
+        <h1>Pronoun Heroes! (Личные местоимения)</h1>
+        <div class="sub-title">Super Minds 1 • Учим легко и с картинками!</div>
+      </div>
+    </div>
+    <div class="score-container">
+      <div class="score-item">⭐ Звёздочки: <span id="starsCount" class="num">0</span></div>
+      <div class="score-item">🏆 Очки: <span id="scoreCount" class="num">0</span></div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav-bar">
+    <button class="nav-tab active" onclick="switchTab('cards')">
+      <span class="tab-icon">🎴</span>
+      <span>1. Карточки</span>
+    </button>
+    <button class="nav-tab" onclick="switchTab('replace')">
+      <span class="tab-icon">🔄</span>
+      <span>2. Замени слово</span>
+    </button>
+    <button class="nav-tab" onclick="switchTab('pictures')">
+      <span class="tab-icon">🖼️</span>
+      <span>3. Кто на картинке?</span>
+    </button>
+    <button class="nav-tab" onclick="switchTab('sorter')">
+      <span class="tab-icon">🧺</span>
+      <span>4. Разложи в корзинки</span>
+    </button>
+  </nav>
+
+  <main>
+
+    <!-- SECTION 1: FLASHCARDS WITH CUSTOM VECTOR ART -->
+    <section id="cards" class="section-screen active">
+      <div class="card-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Карточки с картинками и звуком</h2>
+          <p class="panel-desc">Нажми на карточку, чтобы перевернуть! Нажми 🔊, чтобы послушать британское произношение.</p>
+        </div>
+
+        <div class="flashcards-grid" id="flashcardsContainer">
+          <!-- Injected via JS -->
+        </div>
+
+        <!-- Cheat Sheet / Rule Reminder -->
+        <div class="helper-box">
+          <div class="helper-title">💡 Шпаргалка для ребят (Запомни секрет!):</div>
+          <div class="helper-grid">
+            <div class="helper-pill"><strong>I</strong> = Я (всегда с большой буквы!)</div>
+            <div class="helper-pill"><strong>He</strong> = Он (мальчик, папа, дедушка)</div>
+            <div class="helper-pill"><strong>She</strong> = Она (девочка, мама, бабушка)</div>
+            <div class="helper-pill"><strong>It</strong> = Оно / Он / Она (1 животное или 1 предмет)</div>
+            <div class="helper-pill"><strong>We</strong> = Мы (Я + кто-то ещё)</div>
+            <div class="helper-pill"><strong>They</strong> = Они (когда их много: дети, кошки, мячи)</div>
+            <div class="helper-pill"><strong>You</strong> = Ты (один) или Вы (много ребят / взрослых)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: REPLACE THE WORD (DRILL FOR MISSED LESSONS) -->
+    <section id="replace" class="section-screen">
+      <div class="card-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Тренажёр «Замени слово на местоимение»</h2>
+          <p class="panel-desc">Посмотри на желтое слово и картинку. Каким местоимением его заменить?</p>
+        </div>
+
+        <div class="trainer-box">
+          <div class="trainer-scene">
+            <div class="trainer-image-wrap" id="replaceImageWrap">
+              <!-- SVG loaded here -->
+            </div>
+            <div class="trainer-sentence" id="replaceSentenceText">
+              <!-- Text loaded here -->
+            </div>
+          </div>
+
+          <div class="pronoun-options" id="replaceOptionsBox">
+            <!-- Buttons dynamically generated -->
+          </div>
+
+          <div class="feedback-box" id="replaceFeedback"></div>
+        </div>
+
+        <div style="text-align: center;">
+          <button class="btn-action" id="nextReplaceBtn" style="display: none;" onclick="nextReplaceQuestion()">
+            Следующий вопрос ➔
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: PICTURE TO PRONOUN -->
+    <section id="pictures" class="section-screen">
+      <div class="card-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Кто это? Выбери верное местоимение!</h2>
+          <p class="panel-desc">Обрати внимание: один человек, животное или целая группа?</p>
+        </div>
+
+        <div class="pic-quiz-wrap">
+          <div class="big-picture-card">
+            <div class="big-svg-frame" id="quizSvgBox">
+              <!-- SVG Illustration here -->
+            </div>
+            <div class="pic-prompt" id="quizTitle">...</div>
+            <div class="pic-subprompt" id="quizSub">Подсказка появится здесь</div>
+          </div>
+
+          <div class="pronoun-options" id="quizOptionsBox">
+            <!-- Buttons -->
+          </div>
+
+          <div class="feedback-box" id="quizFeedback"></div>
+
+          <button class="btn-action" id="nextQuizBtn" style="display: none;" onclick="nextQuizQuestion()">
+            Следующая картинка ➔
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: BASKET SORTER GAME -->
+    <section id="sorter" class="section-screen">
+      <div class="card-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Разложи слова по корзинкам местоимений!</h2>
+          <p class="panel-desc">Нажимай на правильную корзинку, куда отправить слово.</p>
+        </div>
+
+        <div class="sort-playground">
+          <div class="word-spawner">
+            <div style="font-size: 0.95rem; color: #9d174d; font-weight: bold;">Текущее слово:</div>
+            <div class="draggable-word" id="sorterWord">
+              <span id="sorterEmoji">🐶</span>
+              <span id="sorterText">a dog</span>
+            </div>
+            <div style="font-size: 0.9rem; color: #64748b;" id="sorterSub">Один питомец! В какую корзинку его положить?</div>
+            <div class="feedback-box" id="sorterFeedback" style="min-height: 32px;"></div>
+          </div>
+
+          <div class="baskets-grid" id="basketsContainer">
+            <!-- 5 main baskets: He, She, It, We, They -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /* ==========================================================================
+       SVG ARTWORKS (Crisp, colorful, self-contained SVG vectors for 8yo kids)
+       ========================================================================== */
+    const SVG_ART = {
+      // Boy / He
+      he: `
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="45" r="28" fill="#fed7aa"/>
+          <path d="M35 38 C 35 15, 85 15, 85 38 Z" fill="#b45309"/>
+          <!-- Cap / hair -->
+          <path d="M 32 35 Q 60 12 88 35 Q 60 22 32 35" fill="#f59e0b"/>
+          <circle cx="50" cy="44" r="4" fill="#1e293b"/>
+          <circle cx="70" cy="44" r="4" fill="#1e293b"/>
+          <path d="M 52 56 Q 60 64 68 56" stroke="#b45309" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <!-- Body -->
+          <path d="M 38 75 C 38 75, 45 110, 60 110 C 75 110, 82 75, 82 75 Z" fill="#3b82f6"/>
+          <polygon points="60,75 50,92 70,92" fill="#ef4444"/>
+          <!-- Boy waving hand -->
+          <circle cx="28" cy="88" r="8" fill="#fed7aa"/>
+          <path d="M 38 82 L 28 88" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+      `,
+
+      // Girl / She
+      she: `
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <!-- Hair background -->
+          <path d="M 28 40 C 20 80, 40 95, 40 95 C 40 95, 80 95, 80 95 C 80 95, 100 80, 92 40 Z" fill="#92400e"/>
+          <!-- Face -->
+          <circle cx="60" cy="48" r="26" fill="#fed7aa"/>
+          <path d="M 34 38 Q 60 20 86 38" fill="#b45309"/>
+          <circle cx="51" cy="48" r="4" fill="#1e293b"/>
+          <circle cx="69" cy="48" r="4" fill="#1e293b"/>
+          <!-- Smile & blush -->
+          <circle cx="43" cy="55" r="4" fill="#fca5a5"/>
+          <circle cx="77" cy="55" r="4" fill="#fca5a5"/>
+          <path d="M 54 58 Q 60 65 66 58" stroke="#dc2626" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <!-- Dress -->
+          <path d="M 40 76 L 28 112 L 92 112 L 80 76 Z" fill="#ec4899"/>
+          <!-- Bow -->
+          <circle cx="34" cy="24" r="6" fill="#f43f5e"/>
+          <polygon points="34,24 22,18 22,30" fill="#fb7185"/>
+          <polygon points="34,24 46,18 46,30" fill="#fb7185"/>
+        </svg>
+      `,
+
+      // It (Cute dog puppy)
+      itDog: `
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <!-- Ears -->
+          <ellipse cx="32" cy="48" rx="10" ry="22" fill="#78350f" transform="rotate(-15 32 48)"/>
+          <ellipse cx="88" cy="48" rx="10" ry="22" fill="#78350f" transform="rotate(15 88 48)"/>
+          <!-- Head -->
+          <circle cx="60" cy="56" r="30" fill="#f59e0b"/>
+          <!-- Eyes -->
+          <ellipse cx="49" cy="50" rx="4" ry="6" fill="#1e293b"/>
+          <ellipse cx="71" cy="50" rx="4" ry="6" fill="#1e293b"/>
+          <circle cx="50" cy="48" r="1.5" fill="#ffffff"/>
+          <circle cx="72" cy="48" r="1.5" fill="#ffffff"/>
+          <!-- Muzzle -->
+          <ellipse cx="60" cy="65" rx="14" ry="10" fill="#fef3c7"/>
+          <polygon points="60,61 54,58 66,58" fill="#1e293b"/>
+          <path d="M 60 65 L 60 70 M 56 68 Q 60 72 64 68" stroke="#1e293b" stroke-width="2" fill="none"/>
+          <ellipse cx="60" cy="74" rx="4" ry="6" fill="#f43f5e"/>
+          <!-- Body -->
+          <path d="M 42 82 C 42 82, 45 110, 60 110 C 75 110, 78 82, 78 82 Z" fill="#d97706"/>
+          <circle cx="60" cy="94" r="5" fill="#fef3c7"/>
+        </svg>
+      `,
+
+      // It (Cute kitten)
+      itCat: `
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <!-- Cat ears -->
+          <polygon points="36,42 26,16 52,30" fill="#fb923c"/>
+          <polygon points="37,38 31,22 48,32" fill="#fecdd3"/>
+          <polygon points="84,42 94,16 68,30" fill="#fb923c"/>
+          <polygon points="83,38 89,22 72,32" fill="#fecdd3"/>
+          <!-- Head -->
+          <circle cx="60" cy="54" r="28" fill="#f97316"/>
+          <!-- Eyes -->
+          <ellipse cx="48" cy="50" rx="5" ry="6" fill="#15803d"/>
+          <ellipse cx="72" cy="50" rx="5" ry="6" fill="#15803d"/>
+          <ellipse cx="48" cy="50" rx="2" ry="5" fill="#052e16"/>
+          <ellipse cx="72" cy="50" rx="2" ry="5" fill="#052e16"/>
+          <!-- Whiskers -->
+          <line x1="30" y1="56" x2="14" y2="52" stroke="#1e293b" stroke-width="2"/>
+          <line x1="30" y1="62" x2="16" y2="65" stroke="#1e293b" stroke-width="2"/>
+          <line x1="90" y1="56" x2="106" y2="52" stroke="#1e293b" stroke-width="2"/>
+          <line x1="90" y1="62" x2="104" y2="65" stroke="#1e293b" stroke-width="2"/>
+          <!-- Nose and mouth -->
+          <polygon points="60,58 56,54 64,54" fill="#fda4af"/>
+          <path d="M 55 60 Q 60 64 65 60" stroke="#1e293b" stroke-width="2" fill="none"/>
+          <!-- Collar with bell -->
+          <path d="M 45 80 Q 60 88 75 80" stroke="#ef4444" stroke-width="5" fill="none"/>
+          <circle cx="60" cy="88" r="4" fill="#facc15"/>
+        </svg>
+      `,
+
+      // It (Toy car / Ball / Object)
+      itCar: `
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="55" width="80" height="30" rx="10" fill="#ef4444"/>
+          <path d="M 32 55 Q 42 30 65 30 L 78 30 Q 90 45 92 55 Z" fill="#3b82f6"/>
+          <rect x="42" y="36" width="20" height="15" rx="3" fill="#e0f2fe"/>
+          <rect x="68" y="36" width="18" height="15" rx="3" fill="#e0f2fe"/>
+          <!-- Wheels -->
+          <circle cx="38" cy="85" r="14" fill="#1e293b"/>
+          <circle cx="38" cy="85" r="6" fill="#cbd5e1"/>
+          <circle cx="82" cy="85" r="14" fill="#1e293b"/>
+          <circle cx="82" cy="85" r="6" fill="#cbd5e1"/>
+          <!-- Headlight -->
+          <circle cx="98" cy="65" r="5" fill="#fef08a"/>
+        </svg>
+      `,
+
+      // They (Two cats or friends)
+      they: `
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <!-- Person 1 (left) -->
+          <circle cx="42" cy="42" r="18" fill="#fed7aa"/>
+          <path d="M 28 32 C 28 18, 56 18, 56 32 Z" fill="#b45309"/>
+          <circle cx="37" cy="42" r="2.5" fill="#1e293b"/>
+          <circle cx="47" cy="42" r="2.5" fill="#1e293b"/>
+          <path d="M 39 49 Q 42 53 45 49" stroke="#b45309" stroke-width="2" fill="none"/>
+          <path d="M 26 62 C 26 62, 32 98, 44 98 C 50 98, 54 85, 54 85 Z" fill="#10b981"/>
+
+          <!-- Person 2 (right) -->
+          <circle cx="78" cy="46" r="18" fill="#fed7aa"/>
+          <path d="M 64 36 C 64 20, 92 20, 92 36 Z" fill="#6366f1"/>
+          <circle cx="73" cy="46" r="2.5" fill="#1e293b"/>
+          <circle cx="83" cy="46" r="2.5" fill="#1e293b"/>
+          <path d="M 75 53 Q 78 57 81 53" stroke="#4338ca" stroke-width="2" fill="none"/>
+          <path d="M 64 66 C 64 66, 70 102, 82 102 C 94 102, 98 70, 98 70 Z" fill="#f59e0b"/>
+          <!-- Friends hugging -->
+          <path d="M 45 70 Q 60 76 75 70" stroke="#fed7aa" stroke-width="6" fill="none" stroke-linecap="round"/>
+        </svg>
+      `,
+
+      // We (Me + a friend, holding hands)
+      we: `
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <!-- Speech bubble "Me + You!" -->
+          <rect x="25" y="8" width="70" height="20" rx="8" fill="#fef08a" stroke="#eab308" stroke-width="1.5"/>
+          <text x="60" y="22" font-size="10" font-weight="bold" fill="#713f12" text-anchor="middle">ME + YOU! ❤️</text>
+          <!-- Kid 1 -->
+          <circle cx="42" cy="48" r="16" fill="#fed7aa"/>
+          <circle cx="37" cy="47" r="2" fill="#1e293b"/>
+          <circle cx="45" cy="47" r="2" fill="#1e293b"/>
+          <path d="M 38 54 Q 41 58 44 54" stroke="#b45309" stroke-width="1.5" fill="none"/>
+          <path d="M 28 66 L 56 66 L 52 102 L 32 102 Z" fill="#8b5cf6"/>
+          <!-- Kid 2 -->
+          <circle cx="78" cy="48" r="16" fill="#fed7aa"/>
+          <circle cx="73" cy="47" r="2" fill="#1e293b"/>
+          <circle cx="81" cy="47" r="2" fill="#1e293b"/>
+          <path d="M 74 54 Q 77 58 80 54" stroke="#b45309" stroke-width="1.5" fill="none"/>
+          <path d="M 64 66 L 92 66 L 88 102 L 68 102 Z" fill="#06b6d4"/>
+          <!-- Holding hands -->
+          <line x1="50" y1="78" x2="70" y2="78" stroke="#fed7aa" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+      `,
+
+      // You (Pointing finger at viewer or a group)
+      you: `
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="40" r="26" fill="#fed7aa"/>
+          <path d="M 38 32 C 38 12, 82 12, 82 32 Z" fill="#475569"/>
+          <circle cx="50" cy="38" r="3.5" fill="#1e293b"/>
+          <circle cx="70" cy="38" r="3.5" fill="#1e293b"/>
+          <path d="M 53 48 Q 60 55 67 48" stroke="#b45309" stroke-width="2" fill="none"/>
+          <!-- Pointing hand towards viewer (no text) -->
+          <circle cx="60" cy="85" r="22" fill="#f59e0b"/>
+          <rect x="52" y="60" width="16" height="28" rx="8" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+          <circle cx="60" cy="88" r="8" fill="#fed7aa"/>
+        </svg>
+      `,
+
+      // I (Me pointing at myself with thumbs)
+      iMe: `
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="42" r="26" fill="#fed7aa"/>
+          <path d="M 36 28 C 36 8, 84 8, 84 28 Z" fill="#ea580c"/>
+          <circle cx="51" cy="42" r="3.5" fill="#1e293b"/>
+          <circle cx="69" cy="42" r="3.5" fill="#1e293b"/>
+          <path d="M 54 52 Q 60 58 66 52" stroke="#b45309" stroke-width="2" fill="none"/>
+          <!-- Big shirt with I -->
+          <path d="M 35 70 L 85 70 L 80 110 L 40 110 Z" fill="#6366f1"/>
+          <circle cx="60" cy="90" r="14" fill="#ffffff"/>
+          <text x="60" y="96" font-size="18" font-weight="900" fill="#4338ca" text-anchor="middle">I</text>
+        </svg>
+      `
+    };
+
+    /* ==========================================================================
+       DATA FOR LESSON & GAMES
+       ========================================================================== */
+    const PRONOUN_CARDS = [
+      {
+        word: "I",
+        ru: "Я",
+        desc: "Когда говорю про себя. Всегда с большой буквы!",
+        example: "I am a student. (Я ученик)",
+        svg: SVG_ART.iMe
+      },
+      {
+        word: "He",
+        ru: "Он",
+        desc: "Один мальчик, юноша, папа, дедушка.",
+        example: "He is a boy. (Он мальчик)",
+        svg: SVG_ART.he
+      },
+      {
+        word: "She",
+        ru: "Она",
+        desc: "Одна девочка, мама, учительница, бабушка.",
+        example: "She is happy. (Она счастливая)",
+        svg: SVG_ART.she
+      },
+      {
+        word: "It",
+        ru: "Оно / Он / Она",
+        desc: "ОДНО животное или ОДИН предмет (собака, мяч, стол).",
+        example: "It is a dog. (Это собака)",
+        svg: SVG_ART.itDog
+      },
+      {
+        word: "We",
+        ru: "Мы",
+        desc: "Я и ещё кто-то (Я + мама, Я + друзья).",
+        example: "We are friends. (Мы друзья)",
+        svg: SVG_ART.we
+      },
+      {
+        word: "They",
+        ru: "Они",
+        desc: "Много людей, много животных или много вещей!",
+        example: "They are dogs. (Они собаки)",
+        svg: SVG_ART.they
+      },
+      {
+        word: "You",
+        ru: "Ты / Вы",
+        desc: "И для одного человека («ты»), и для нескольких («вы, ребята»)! Например: You are my friend (Ты мой друг) или You are students (Вы ученики).",
+        example: "You are my friend / You are good students!",
+        svg: SVG_ART.you
+      }
+    ];
+
+    // Data for replacement drill (Game 2)
+    const REPLACEMENT_TASKS = [
+      {
+        textBefore: "",
+        highlight: "The cat",
+        textAfter: "is on the mat.",
+        correct: "It",
+        options: ["He", "It", "They"],
+        explanation: "The cat — это одна кошечка (животное), значит IT!",
+        svg: SVG_ART.itCat
+      },
+      {
+        textBefore: "",
+        highlight: "Ben",
+        textAfter: "has got a green frog.",
+        correct: "He",
+        options: ["He", "She", "It"],
+        explanation: "Ben — мальчик (он), значит HE!",
+        svg: SVG_ART.he
+      },
+      {
+        textBefore: "",
+        highlight: "Anna",
+        textAfter: "likes her little rabbit.",
+        correct: "She",
+        options: ["She", "He", "We"],
+        explanation: "Anna — девочка (она), значит SHE!",
+        svg: SVG_ART.she
+      },
+      {
+        textBefore: "",
+        highlight: "Two dogs",
+        textAfter: "jump.",
+        correct: "They",
+        options: ["It", "They", "We"],
+        explanation: "Two dogs — две собаки (их много во множественном числе), значит THEY!",
+        svg: SVG_ART.they
+      },
+      {
+        textBefore: "",
+        highlight: "Tim and I",
+        textAfter: "play football.",
+        correct: "We",
+        options: ["They", "You", "We"],
+        explanation: "Tim and I — Тим и Я (есть слово 'I' = Я), значит МЫ (WE)!",
+        svg: SVG_ART.we
+      },
+      {
+        textBefore: "",
+        highlight: "The toy car",
+        textAfter: "is red and fast.",
+        correct: "It",
+        options: ["She", "It", "They"],
+        explanation: "The toy car — одна машинка (предмет), значит IT!",
+        svg: SVG_ART.itCar
+      },
+      {
+        textBefore: "",
+        highlight: "The spiders",
+        textAfter: "are under the table.",
+        correct: "They",
+        options: ["It", "They", "He"],
+        explanation: "The spiders с буквой -S (пауки, их много!), поэтому обязательно THEY!",
+        svg: SVG_ART.they
+      },
+      {
+        textBefore: "",
+        highlight: "My mum",
+        textAfter: "is very kind.",
+        correct: "She",
+        options: ["She", "He", "It"],
+        explanation: "My mum — мама (женщина), значит SHE!",
+        svg: SVG_ART.she
+      }
+    ];
+
+    // Data for Picture Quiz (Game 3)
+    const PICTURE_QUIZZES = [
+      {
+        title: "___ is a boy.",
+        sub: "Подсказка: один мальчик! Выбери местоимение:",
+        svg: SVG_ART.he,
+        correct: "He",
+        options: ["He", "She", "It", "We"],
+        soundText: "He is a boy"
+      },
+      {
+        title: "___ is a dog.",
+        sub: "Подсказка: одно животное (собака)! Выбери местоимение:",
+        svg: SVG_ART.itDog,
+        correct: "It",
+        options: ["He", "She", "It", "They"],
+        soundText: "It is a dog"
+      },
+      {
+        title: "___ is a girl.",
+        sub: "Подсказка: одна девочка! Выбери местоимение:",
+        svg: SVG_ART.she,
+        correct: "She",
+        options: ["She", "He", "It", "They"],
+        soundText: "She is a girl"
+      },
+      {
+        title: "___ are friends.",
+        sub: "Подсказка: мы вместе (Me + You = Мы)! Выбери местоимение:",
+        svg: SVG_ART.we,
+        correct: "We",
+        options: ["They", "We", "You", "It"],
+        soundText: "We are friends"
+      },
+      {
+        title: "___ jump.",
+        sub: "Подсказка: несколько ребят (они прыгают)! Выбери местоимение:",
+        svg: SVG_ART.they,
+        correct: "They",
+        options: ["He", "It", "They", "We"],
+        soundText: "They jump"
+      },
+      {
+        title: "___ is a car.",
+        sub: "Подсказка: один предмет (машина)! Выбери местоимение:",
+        svg: SVG_ART.itCar,
+        correct: "It",
+        options: ["It", "He", "She", "They"],
+        soundText: "It is a car"
+      }
+    ];
+
+    // Data for Basket Sorter (Game 4)
+    const BASKET_ITEMS = [
+      { text: "a dog (собака)", emoji: "🐶", target: "It", tip: "Одно животное = It" },
+      { text: "Tom (мальчик)", emoji: "👦", target: "He", tip: "Мальчик = He" },
+      { text: "Emma (девочка)", emoji: "👧", target: "She", tip: "Девочка = She" },
+      { text: "three cats (3 кошки)", emoji: "🐱🐱🐱", target: "They", tip: "Много кошек = They" },
+      { text: "Max and I (Макс и Я)", emoji: "👫", target: "We", tip: "Там есть 'I' (Я) = We" },
+      { text: "a pencil (карандаш)", emoji: "✏️", target: "It", tip: "Один предмет = It" },
+      { text: "Dad (папа)", emoji: "👨", target: "He", tip: "Мужчина = He" },
+      { text: "Mum (мама)", emoji: "👩", target: "She", tip: "Женщина = She" },
+      { text: "birds (птицы)", emoji: "🐦🐦", target: "They", tip: "Много птиц = They" },
+      { text: "my sister and I", emoji: "👭", target: "We", tip: "Сестра и Я = We" },
+      { text: "a ball (мячик)", emoji: "⚽", target: "It", tip: "Предмет = It" },
+      { text: "Grandpa (дедушка)", emoji: "👴", target: "He", tip: "Дедушка = He" }
+    ];
+
+    /* ==========================================================================
+       GLOBAL STATE & HELPERS
+       ========================================================================== */
+    let stars = 0;
+    let score = 0;
+
+    function addReward(points = 10, starCount = 1) {
+      stars += starCount;
+      score += points;
+      document.getElementById("starsCount").innerText = stars;
+      document.getElementById("scoreCount").innerText = score;
+      celebrateStar();
+    }
+
+    function celebrateStar() {
+      const star = document.createElement("div");
+      star.className = "star-pop";
+      star.innerText = "⭐ +1";
+      const x = window.innerWidth / 2 + (Math.random() * 160 - 80);
+      const y = window.innerHeight / 2 + (Math.random() * 80 - 40);
+      star.style.left = x + "px";
+      star.style.top = y + "px";
+      star.style.setProperty("--tx", (Math.random() * 60 - 30) + "px");
+      star.style.setProperty("--ty", (-80 - Math.random() * 40) + "px");
+      document.body.appendChild(star);
+      setTimeout(() => star.remove(), 1000);
+    }
+
+    function speakWord(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'en-GB';
+        utter.rate = 0.85; // slower for 8 yo kids
+        window.speechSynthesis.speak(utter);
+      }
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll(".nav-tab").forEach(tab => tab.classList.remove("active"));
+      document.querySelectorAll(".section-screen").forEach(sec => sec.classList.remove("active"));
+
+      const targetBtn = Array.from(document.querySelectorAll(".nav-tab"))
+        .find(b => b.getAttribute("onclick").includes(tabId));
+      if (targetBtn) targetBtn.classList.add("active");
+
+      const screen = document.getElementById(tabId);
+      if (screen) screen.classList.add("active");
+    }
+
+    /* ==========================================================================
+       1. INITIALIZE FLASHCARDS
+       ========================================================================== */
+    function renderFlashcards() {
+      const container = document.getElementById("flashcardsContainer");
+      container.innerHTML = "";
+
+      PRONOUN_CARDS.forEach(card => {
+        const flipCard = document.createElement("div");
+        flipCard.className = "flip-card";
+        flipCard.innerHTML = `
+          <div class="flip-inner">
+            <div class="flip-front">
+              <div class="pronoun-badge">${card.word}</div>
+              <div class="card-svg-box">${card.svg}</div>
+              <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                <span class="hint-label">Нажми перевернуть 🔄</span>
+                <button class="audio-btn" onclick="event.stopPropagation(); speakWord('${card.word}')" title="Слушать произношение">🔊</button>
+              </div>
+            </div>
+            <div class="flip-back">
+              <div class="back-title">${card.word}</div>
+              <div class="back-ru">${card.ru}</div>
+              <div class="back-desc">${card.desc}</div>
+              <div style="font-size:0.85rem; color:#4338ca; font-style:italic;">${card.example}</div>
+              <button class="audio-btn" style="margin-top:8px;" onclick="event.stopPropagation(); speakWord('${card.example}')">🔊</button>
+            </div>
+          </div>
+        `;
+        flipCard.addEventListener("click", () => {
+          flipCard.classList.toggle("flipped");
+        });
+        container.appendChild(flipCard);
+      });
+    }
+
+    /* ==========================================================================
+       2. REPLACE THE WORD GAME (DRILL)
+       ========================================================================== */
+    let currentReplaceIdx = 0;
+    let replaceAnswered = false;
+
+    function renderReplaceQuestion() {
+      replaceAnswered = false;
+      const data = REPLACEMENT_TASKS[currentReplaceIdx];
+      const imgWrap = document.getElementById("replaceImageWrap");
+      const sentenceText = document.getElementById("replaceSentenceText");
+      const optionsBox = document.getElementById("replaceOptionsBox");
+      const feedback = document.getElementById("replaceFeedback");
+      const nextBtn = document.getElementById("nextReplaceBtn");
+
+      imgWrap.innerHTML = data.svg;
+      sentenceText.innerHTML = `${data.textBefore} <span class="highlight-target">${data.highlight}</span> ${data.textAfter}`;
+      feedback.innerHTML = "";
+      nextBtn.style.display = "none";
+      optionsBox.innerHTML = "";
+
+      data.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "pronoun-choice-btn";
+        btn.innerText = opt;
+        btn.onclick = () => handleReplaceChoice(btn, opt, data);
+        optionsBox.appendChild(btn);
+      });
+    }
+
+    function handleReplaceChoice(btn, selected, data) {
+      if (replaceAnswered) return;
+
+      const feedback = document.getElementById("replaceFeedback");
+      const nextBtn = document.getElementById("nextReplaceBtn");
+
+      if (selected === data.correct) {
+        replaceAnswered = true;
+        btn.classList.add("correct");
+        feedback.innerHTML = `<span style="color:#10b981;">🎉 Отлично! ${data.explanation}</span>`;
+        speakWord(data.correct);
+        addReward(15, 1);
+        nextBtn.style.display = "inline-flex";
+      } else {
+        btn.classList.add("wrong");
+        feedback.innerHTML = `<span style="color:#ef4444;">Почти! Подумай ещё раз: сколько их?</span>`;
+        setTimeout(() => btn.classList.remove("wrong"), 700);
+      }
+    }
+
+    function nextReplaceQuestion() {
+      currentReplaceIdx = (currentReplaceIdx + 1) % REPLACEMENT_TASKS.length;
+      renderReplaceQuestion();
+    }
+
+    /* ==========================================================================
+       3. PICTURE QUIZ GAME
+       ========================================================================== */
+    let currentQuizIdx = 0;
+    let quizAnswered = false;
+
+    function renderPictureQuiz() {
+      quizAnswered = false;
+      const q = PICTURE_QUIZZES[currentQuizIdx];
+      document.getElementById("quizSvgBox").innerHTML = q.svg;
+      document.getElementById("quizTitle").innerText = q.title;
+      document.getElementById("quizSub").innerText = q.sub;
+      document.getElementById("quizFeedback").innerHTML = "";
+      document.getElementById("nextQuizBtn").style.display = "none";
+
+      const optBox = document.getElementById("quizOptionsBox");
+      optBox.innerHTML = "";
+
+      q.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "pronoun-choice-btn";
+        btn.innerText = opt;
+        btn.onclick = () => handleQuizChoice(btn, opt, q);
+        optBox.appendChild(btn);
+      });
+    }
+
+    function handleQuizChoice(btn, selected, q) {
+      if (quizAnswered) return;
+
+      const feedback = document.getElementById("quizFeedback");
+      const nextBtn = document.getElementById("nextQuizBtn");
+
+      if (selected === q.correct) {
+        quizAnswered = true;
+        btn.classList.add("correct");
+        feedback.innerHTML = `<span style="color:#10b981;">✨ Правильно! Это <strong>${q.correct}</strong>!</span>`;
+        speakWord(q.soundText);
+        addReward(15, 1);
+        nextBtn.style.display = "inline-flex";
+      } else {
+        btn.classList.add("wrong");
+        feedback.innerHTML = `<span style="color:#ef4444;">Ой, попробуй другую кнопку!</span>`;
+        setTimeout(() => btn.classList.remove("wrong"), 700);
+      }
+    }
+
+    function nextQuizQuestion() {
+      currentQuizIdx = (currentQuizIdx + 1) % PICTURE_QUIZZES.length;
+      renderPictureQuiz();
+    }
+
+    /* ==========================================================================
+       4. BASKET SORTER GAME
+       ========================================================================== */
+    let currentItemIdx = 0;
+    const BASKETS = [
+      { name: "He", desc: "Мальчик / Мужчина", svg: SVG_ART.he },
+      { name: "She", desc: "Девочка / Женщина", svg: SVG_ART.she },
+      { name: "It", desc: "1 предмет или питомец", svg: SVG_ART.itDog },
+      { name: "We", desc: "Мы (Я + кто-то)", svg: SVG_ART.we },
+      { name: "They", desc: "Они (когда много)", svg: SVG_ART.they }
+    ];
+
+    function renderBasketItem() {
+      const item = BASKET_ITEMS[currentItemIdx];
+      document.getElementById("sorterEmoji").innerText = item.emoji;
+      document.getElementById("sorterText").innerText = item.text;
+      document.getElementById("sorterFeedback").innerText = "";
+    }
+
+    function renderBaskets() {
+      const container = document.getElementById("basketsContainer");
+      container.innerHTML = "";
+
+      BASKETS.forEach(b => {
+        const basket = document.createElement("div");
+        basket.className = "basket";
+        basket.innerHTML = `
+          <div class="basket-svg">${b.svg}</div>
+          <div class="basket-name">${b.name}</div>
+          <div class="basket-desc">${b.desc}</div>
+        `;
+        basket.onclick = () => handleBasketDrop(b.name);
+        container.appendChild(basket);
+      });
+    }
+
+    function handleBasketDrop(basketName) {
+      const current = BASKET_ITEMS[currentItemIdx];
+      const feedback = document.getElementById("sorterFeedback");
+
+      if (basketName === current.target) {
+        feedback.innerHTML = `<span style="color:#10b981; font-weight:bold;">🎉 Точно в цель! ${current.tip}</span>`;
+        speakWord(basketName);
+        addReward(20, 1);
+        currentItemIdx = (currentItemIdx + 1) % BASKET_ITEMS.length;
+        setTimeout(() => {
+          renderBasketItem();
+        }, 1000);
+      } else {
+        feedback.innerHTML = `<span style="color:#ef4444; font-weight:bold;">Не та корзинка. Подсказка: ${current.tip}</span>`;
+      }
+    }
+
+    /* Start on load */
+    window.addEventListener("DOMContentLoaded", () => {
+      renderFlashcards();
+      renderReplaceQuestion();
+      renderPictureQuiz();
+      renderBaskets();
+      renderBasketItem();
+    });
+  </script>
+</body>
+</html>
